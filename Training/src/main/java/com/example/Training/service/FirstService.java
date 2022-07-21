@@ -1,6 +1,7 @@
 package com.example.Training.service;
 
 import com.example.Training.Repo.FirstRepo;
+import com.example.Training.aop.ExecutionTimer;
 import com.example.Training.model.Person;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +31,10 @@ public class FirstService {
     }
 
     @Retryable(value= Exception.class, maxAttempts = 3, backoff = @Backoff(200))
+    @ExecutionTimer
     public Object getMethod() throws Exception {
         log.info("firstservice.getMethod");
+        Thread.sleep(1000);
         throw new Exception();
     }
 

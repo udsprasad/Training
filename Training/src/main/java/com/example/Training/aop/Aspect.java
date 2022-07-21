@@ -27,10 +27,13 @@ public class Aspect {
     @Around(value ="pointCut2()")
     public Object logTime(ProceedingJoinPoint joinPoint) throws Throwable {
         Long startTime = System.currentTimeMillis();
-        Object output=joinPoint.proceed();
-        Long stopTime = System.currentTimeMillis();
-
-        log.info("Exceution time for {} method is {}",(joinPoint.getSignature()).getName(),stopTime-startTime);
+        Object output =null;
+        try {
+            output = joinPoint.proceed();
+        } finally {
+            Long stopTime = System.currentTimeMillis();
+            log.info("Exceution time for {} method is {}", (joinPoint.getSignature()).getName(), stopTime - startTime);
+        }
         return output;
     }
 

@@ -60,7 +60,6 @@ public class FirstController {
     JwtUtil jwtUtil;
 
     @GetMapping("/hai")
-    @ExecutionTimer
     @Operation(summary = "get Hai response")
     @ApiResponse(responseCode="200",description = "successful")
     ResponseEntity<Object> get() throws Exception {
