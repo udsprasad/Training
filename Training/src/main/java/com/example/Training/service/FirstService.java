@@ -38,6 +38,6 @@ public class FirstService {
     @Recover
     public Object recoverMethod(Exception e){
         log.info("Recover method");
-        return "hai";
+        return "hai ramesh";
     }
 }

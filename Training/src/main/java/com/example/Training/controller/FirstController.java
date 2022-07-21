@@ -1,5 +1,6 @@
 package com.example.Training.controller;
 
+import com.example.Training.aop.ExecutionTimer;
 import com.example.Training.config.AppConfig;
 import com.example.Training.model.JwtRequest;
 import com.example.Training.model.Person;
@@ -59,6 +60,7 @@ public class FirstController {
     JwtUtil jwtUtil;
 
     @GetMapping("/hai")
+    @ExecutionTimer
     @Operation(summary = "get Hai response")
     @ApiResponse(responseCode="200",description = "successful")
     ResponseEntity<Object> get() throws Exception {
