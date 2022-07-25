@@ -1,19 +1,16 @@
 package com.example.Training.controller;
 
 import com.example.Training.aop.ExecutionTimer;
-import com.example.Training.config.AppConfig;
 import com.example.Training.model.JwtRequest;
 import com.example.Training.model.Person;
+import com.example.Training.model.PersonDTO;
 import com.example.Training.model.User;
 import com.example.Training.service.FirstService;
+import com.example.Training.service.RestTemplateService;
 import com.example.Training.service.UserService;
 import com.example.Training.utils.JwtUtil;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
-import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -25,14 +22,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 
 @Slf4j
 @RefreshScope
@@ -54,6 +47,9 @@ public class FirstController {
     PasswordEncoder passwordEncoder;
 
     @Autowired
+    RestTemplateService restTemplateService;
+
+    @Autowired
     AuthenticationManager authenticationManager;
 
     @Autowired
@@ -62,8 +58,18 @@ public class FirstController {
     @GetMapping("/hai")
     @Operation(summary = "get Hai response")
     @ApiResponse(responseCode="200",description = "successful")
-    ResponseEntity<Object> get() throws Exception {
-        return ResponseEntity.ok(firstService.getMethod());
+    Object get() throws Exception {
+        return firstService.getMethod();
+    }
+
+    @PostMapping("/post")
+    ResponseEntity<PersonDTO> insertPerson(@RequestBody PersonDTO person){
+        return restTemplateService.addPerson(person);
+    }
+
+    @PutMapping("/put")
+    void updatePerson(@RequestParam String name,@RequestParam String phonenumber){
+        restTemplateService.updatePerson(name, phonenumber);
     }
 
     @GetMapping(value = "/", produces = "application/json")

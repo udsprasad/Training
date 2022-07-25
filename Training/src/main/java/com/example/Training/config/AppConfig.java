@@ -35,7 +35,7 @@ public class AppConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf()
                 .disable()
-                .authorizeRequests().antMatchers("/hai").permitAll()
+               .authorizeRequests().antMatchers("/hai","/post","/put").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/authenticate").permitAll()
                 .antMatchers("/actuator/refresh").permitAll()
